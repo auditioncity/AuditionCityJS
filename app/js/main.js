@@ -1,20 +1,67 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
-
-},{}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var config = function config($stateProvider, $urlRouterProvider) {};
+var RegisterActorController = function RegisterActorController() {
+
+  var vm = this;
+  vm.title = 'Register as an actor';
+};
+
+RegisterActorController.$inject = [];
+
+exports['default'] = RegisterActorController;
+module.exports = exports['default'];
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _angular = require('angular');
+
+var _angular2 = _interopRequireDefault(_angular);
+
+require('../app-core/index');
+
+var _controllersRegisterActorController = require('./controllers/registerActor.controller');
+
+var _controllersRegisterActorController2 = _interopRequireDefault(_controllersRegisterActorController);
+
+_angular2['default'].module('app.AC', ['app.core']).controller('RegisterActorController', _controllersRegisterActorController2['default']);
+
+},{"../app-core/index":5,"./controllers/registerActor.controller":1,"angular":11}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var config = function config($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider.state('root', {
+    abstract: true,
+    templateUrl: 'templates/app-layout/layout.tpl.html'
+  }).state('root.home', {
+    url: '/',
+    controller: 'HomeController as vm',
+    templateUrl: 'templates/app-layout/home.tpl.html'
+  }).state('root.login', {
+    url: '/login',
+    controller: 'LoginController as vm',
+    templateUrl: 'templates/app-layout/login.tpl.html'
+  });
+};
 
 config.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 exports['default'] = config;
 module.exports = exports['default'];
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -31,7 +78,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -52,7 +99,55 @@ var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverC
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
 
-},{"./config":2,"./constants/fileserver.constant":3,"angular":8,"angular-ui-router":6}],5:[function(require,module,exports){
+},{"./config":3,"./constants/fileserver.constant":4,"angular":11,"angular-ui-router":9}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var HomeController = function HomeController(UserService, $state) {
+
+  var vm = this;
+  vm.title = 'Audition City';
+  var promise = UserService.checkAuth();
+
+  if (promise) {
+    promise.then(function (res) {
+      console.log(res);
+      if (res.data.status === 'Authentication failed.') {
+        $state.go('root.login');
+      } else {
+        vm.message = 'I am logged in';
+      }
+    });
+  }
+
+  vm.logmeout = function () {
+    UserService.logout();
+  };
+};
+
+HomeController.$inject = ['UserService', '$state'];
+
+exports['default'] = HomeController;
+module.exports = exports['default'];
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _angular = require('angular');
+
+var _angular2 = _interopRequireDefault(_angular);
+
+var _controllersHomeController = require('./controllers/home.controller');
+
+var _controllersHomeController2 = _interopRequireDefault(_controllersHomeController);
+
+_angular2['default'].module('app.layout', []).controller('HomeController', _controllersHomeController2['default']);
+
+},{"./controllers/home.controller":6,"angular":11}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -65,9 +160,11 @@ require('./app-core/index');
 
 require('./app-AC/index');
 
+require('./app-layout/index');
+
 _angular2['default'].module('app', ['app.core', 'app.AC', 'app.layout']);
 
-},{"./app-AC/index":1,"./app-core/index":4,"angular":8}],6:[function(require,module,exports){
+},{"./app-AC/index":2,"./app-core/index":5,"./app-layout/index":7,"angular":11}],9:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4438,7 +4535,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33457,11 +33554,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":7}]},{},[5])
+},{"./angular":10}]},{},[8])
 
 
 //# sourceMappingURL=main.js.map
