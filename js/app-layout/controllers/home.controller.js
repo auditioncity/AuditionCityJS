@@ -1,7 +1,7 @@
 let HomeController = function(UserService, $state) {
   
   let vm = this;
-  vm.title = 'Audition City';
+  vm.title = 'AuditionCity';
   let promise = UserService.checkAuth();
 
   if (promise) {

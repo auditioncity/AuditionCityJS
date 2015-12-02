@@ -1,8 +1,9 @@
 let UserService = function($http, $cookies, $state, FILESERVER) {
   
+  // console.log(FILESERVER);
   let vm = this;
 
-  vm.CheckAuth = function() {
+  vm.checkAuth = function() {
     let token = $cookies.get('authToken');
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = token;
     if (token) {
@@ -17,8 +18,8 @@ let UserService = function($http, $cookies, $state, FILESERVER) {
   };
 
   vm.loginSuccess = function(res) {
-    $cookies.put('authToken', res.data.auth_token);
-    FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = res.data.auth_token;
+    $cookies.put('authToken', res.data.user.auth_token);
+    FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = res.data.user.auth_token;
     $state.go('root.home');
   };
 

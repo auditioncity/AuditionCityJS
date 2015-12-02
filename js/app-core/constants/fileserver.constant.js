@@ -1,9 +1,9 @@
 export default {
-  URL: 'https://pacific-garden-6218.herokuapp.com/',
+  URL: 'http://api.audition.city/',
   CONFIG: {
     headers: {
       'Access-Token': '',
-      'Content-Type': undefined
+      // 'Content-Type': undefined
     }
   }
 };

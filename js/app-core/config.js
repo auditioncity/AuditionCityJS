@@ -15,7 +15,12 @@ let config = function($stateProvider, $urlRouterProvider) {
     .state('root.login', {
       url: '/login',
       controller: 'LoginController as vm',
-      templateUrl: 'templates/app-layout/login.tpl.html'
+      templateUrl: 'templates/app-AC/login.tpl.html'
+    })
+    .state('root.actorinfo', {
+      url: '/actorinfo',
+      controller: 'registerActorController as vm',
+      templateUrl: 'templates/app-AC/actorinfo.tpl.html'
     });
 
 };
