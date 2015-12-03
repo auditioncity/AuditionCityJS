@@ -5,7 +5,7 @@
 <div class="login">
   <h3 class="login-header">Login</h3>
   <form ng-submit="vm.login(user)">
-    <input placeholder="Email" ng-model="user.email">
+    <input type="email" placeholder="Email" ng-model="user.email">
     <br>
     <input type="password" placeholder="password" ng-model="user.password">
     <br>
@@ -17,12 +17,12 @@
 
 <div class="register">
   <h3 class="register-header">Register</h3>
-  <form>
-    <input placeholder="Full Name">
+  <form ng-submit="vm.signup(newuser)">
+    <input placeholder="Full Name" ng-model="newuser.full_name">
     <br>
-    <input placeholder="Email">
+    <input type="email" placeholder="Email" ng-model="newuser.email">
     <br>
-    <input placeholder="password">
+    <input placeholder="password" ng-model="newuser.password">
     <br>
     <button>Register</button>
   </form>

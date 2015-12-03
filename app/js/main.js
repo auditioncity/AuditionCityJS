@@ -9,11 +9,18 @@ var LoginController = function LoginController($cookies, UserService, $state) {
   var vm = this;
   vm.title = 'AuditionCity';
   // console.log(UserService);
+
   vm.login = function (user) {
-    console.log(user);
+    // console.log(user);
     UserService.sendLogin(user).then(function (res) {
       UserService.loginSuccess(res);
-      console.log(res);
+      // console.log(res);
+    });
+  };
+
+  vm.signup = function (newuser) {
+    UserService.sendSignup(newuser).then(function (res) {
+      UserService.signupSuccess(res);
     });
   };
 };
@@ -29,15 +36,16 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var RegisterActorController = function RegisterActorController() {
+var registerActorController = function registerActorController() {
 
   var vm = this;
   vm.title = 'Register as an actor';
+  console.log('hi');
 };
 
-RegisterActorController.$inject = [];
+registerActorController.$inject = [];
 
-exports['default'] = RegisterActorController;
+exports['default'] = registerActorController;
 module.exports = exports['default'];
 
 },{}],3:[function(require,module,exports){
@@ -59,9 +67,9 @@ var _controllersLoginController = require('./controllers/login.controller');
 
 var _controllersLoginController2 = _interopRequireDefault(_controllersLoginController);
 
-_angular2['default'].module('app.AC', ['app.core']).controller('RegisterActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']);
+_angular2['default'].module('app.AC', ['app.core']).controller('registerActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']);
 
-},{"../app-core/index":6,"./controllers/login.controller":1,"./controllers/registerActor.controller":2,"angular":15}],4:[function(require,module,exports){
+},{"../app-core/index":6,"./controllers/login.controller":1,"./controllers/registerActor.controller":2,"angular":16}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -73,6 +81,7 @@ var config = function config($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('root', {
     abstract: true,
+    controller: 'LayoutController as vm',
     templateUrl: 'templates/app-layout/layout.tpl.html'
   }).state('root.home', {
     url: '/',
@@ -132,7 +141,7 @@ var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverC
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
 
-},{"./config":4,"./constants/fileserver.constant":5,"angular":15,"angular-ui-router":13}],7:[function(require,module,exports){
+},{"./config":4,"./constants/fileserver.constant":5,"angular":16,"angular-ui-router":14}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -155,9 +164,9 @@ var HomeController = function HomeController(UserService, $state) {
     });
   }
 
-  vm.logmeout = function () {
-    UserService.logout();
-  };
+  // vm.logmeout = function() {
+  //   UserService.logout();
+  // };
 };
 
 HomeController.$inject = ['UserService', '$state'];
@@ -166,6 +175,34 @@ exports['default'] = HomeController;
 module.exports = exports['default'];
 
 },{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var LayoutController = function LayoutController(UserService, $state, FILESERVER) {
+
+  var vm = this;
+
+  vm.logmeout = function () {
+    UserService.logout();
+  };
+
+  vm.goact = function () {
+    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] === null) {
+      $state.go('root.login');
+    } else {
+      $state.go('root.actorinfo');
+    }
+  };
+};
+
+LayoutController.$inject = ['UserService', '$state', 'FILESERVER'];
+
+exports['default'] = LayoutController;
+module.exports = exports['default'];
+
+},{}],9:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -178,13 +215,17 @@ var _controllersHomeController = require('./controllers/home.controller');
 
 var _controllersHomeController2 = _interopRequireDefault(_controllersHomeController);
 
+var _controllersLayoutController = require('./controllers/layout.controller');
+
+var _controllersLayoutController2 = _interopRequireDefault(_controllersLayoutController);
+
 var _servicesUserService = require('./services/user.service');
 
 var _servicesUserService2 = _interopRequireDefault(_servicesUserService);
 
-_angular2['default'].module('app.layout', [require('angular-cookies')]).controller('HomeController', _controllersHomeController2['default']).service('UserService', _servicesUserService2['default']);
+_angular2['default'].module('app.layout', [require('angular-cookies')]).controller('HomeController', _controllersHomeController2['default']).controller('LayoutController', _controllersLayoutController2['default']).service('UserService', _servicesUserService2['default']);
 
-},{"./controllers/home.controller":7,"./services/user.service":9,"angular":15,"angular-cookies":12}],9:[function(require,module,exports){
+},{"./controllers/home.controller":7,"./controllers/layout.controller":8,"./services/user.service":10,"angular":16,"angular-cookies":13}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -220,6 +261,16 @@ var UserService = function UserService($http, $cookies, $state, FILESERVER) {
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = null;
     $state.go('root.login');
   };
+
+  this.sendSignup = function (newuser) {
+    return $http.post(FILESERVER.URL + 'signup', newuser, FILESERVER.CONFIG);
+  };
+
+  this.signupSuccess = function (res) {
+    $cookies.put('authToken', res.data.user.auth_token);
+    FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = res.data.user.auth_token;
+    $state.go('root.home');
+  };
 };
 
 UserService.$inject = ['$http', '$cookies', '$state', 'FILESERVER'];
@@ -227,7 +278,7 @@ UserService.$inject = ['$http', '$cookies', '$state', 'FILESERVER'];
 exports['default'] = UserService;
 module.exports = exports['default'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -244,7 +295,7 @@ require('./app-layout/index');
 
 _angular2['default'].module('app', ['app.core', 'app.AC', 'app.layout']);
 
-},{"./app-AC/index":3,"./app-core/index":6,"./app-layout/index":8,"angular":15}],11:[function(require,module,exports){
+},{"./app-AC/index":3,"./app-core/index":6,"./app-layout/index":9,"angular":16}],12:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -567,11 +618,11 @@ angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterPr
 
 })(window, window.angular);
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":11}],13:[function(require,module,exports){
+},{"./angular-cookies":12}],14:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4942,7 +4993,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33961,11 +34012,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":14}]},{},[10])
+},{"./angular":15}]},{},[11])
 
 
 //# sourceMappingURL=main.js.map

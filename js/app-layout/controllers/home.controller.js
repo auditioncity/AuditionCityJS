@@ -15,9 +15,9 @@ let HomeController = function(UserService, $state) {
     });
   }
 
-  vm.logmeout = function() {
-    UserService.logout();
-  };
+  // vm.logmeout = function() {
+  //   UserService.logout();
+  // };
 
 };
 

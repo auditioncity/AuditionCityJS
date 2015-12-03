@@ -5,6 +5,7 @@ let config = function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('root', {
       abstract: true,
+      controller: 'LayoutController as vm',
       templateUrl: 'templates/app-layout/layout.tpl.html'
     })
     .state('root.home', {

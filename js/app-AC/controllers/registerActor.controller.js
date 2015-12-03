@@ -1,10 +1,10 @@
-let RegisterActorController = function() {
+let registerActorController = function() {
   
   let vm = this;
   vm.title = 'Register as an actor';
-
+  console.log('hi');
 };
 
-RegisterActorController.$inject = [];
+registerActorController.$inject = [];
 
-export default RegisterActorController;
+export default registerActorController;
