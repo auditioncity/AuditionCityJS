@@ -3,26 +3,27 @@
 <h3>Please complete all fields</h3>
 
 <div>
-  <form>
-    <input placeholder='Name'>
+  <form ng-submit="vm.sendData(actor)">
+    <input placeholder='Name' ng-model="actor.name">
 
-    <input placeholder='Address'>
+    <input placeholder='Address' ng-model="actor.address">
 
-    <input placeholder='Phone' type="tel">
+    <input placeholder='Phone' type="tel" ng-model="actor.phone">
 
-    <input placeholder='Email' type="email">
+    <input placeholder='Email' type="email" ng-model="actor.email">
 
-    <input placeholder='Website' type="url">
+    <input placeholder='Website' type="url" ng-model="actor.website">
 
-    <input placeholder='Bio'>
+    <input placeholder='Bio' ng-model="actor.bio">
 
-    <input placeholder='Age'>
+    <input type="number" placeholder='Age' ng-model="actor.age">
 
-    <input placeholder='Feet'>
+    <input type="number" placeholder='Feet'  ng-model="actor.height_feet">
 
-    <input placeholder='Inches'>
+    <input type="number" placeholder='Inches' ng-model="actor.height_inches">
 
-    <select>
+    <p>Hair Color</p>
+    <select name="hair_color" ng-model="actor.hair_color">
       <option value="Blonde">blonde</option>
       <option value="Brown">Brown</option>
       <option value="Hazel">Hazel</option>
@@ -34,7 +35,8 @@
       <option value="None">None</option>
     </select>
 
-    <select>
+    <p>Eye Color</p>
+    <select name="eye_color" ng-model="actor.eye_color">
       <option value="Blue">Blue</option>
       <option value="Brown">Brown</option>
       <option value="Hazel">Hazel</option>
@@ -44,12 +46,14 @@
       <option value="Purple">Purple</option>
     </select>
 
-    <select placeholder='Gender'>
+    <p>Gender</p>
+    <select name="gender" ng-model="actor.gender">
       <option value="Male">Male</option>
       <option  value="Female">Female</option>
     </select>
 
-    <select>
+    <p>Ethnicity</p>
+    <select name="ethnicity" ng-model="actor.ethnicity">
       <option value="Black/African American">Black/African American</option>
       <option value="Hispanic/Latino">Hispanic/Latino</option>
       <option value="Asian/Pacific Islander">Asian/Pacific Islander</option>
@@ -58,16 +62,26 @@
       <option value="Other">Other</option>
     </select>
 
-    <input placeholder='Talent Agency'>
+    <input placeholder='Talent Agency' ng-model="actor.talent_agency">
 
     <p>Union</p>
-    <input type='checkbox' value="Equity">Equity
+<!--     <input type='checkbox' value="Equity">Equity
     <input type='checkbox' value="AFTRA">AFTRA
     <input type='checkbox' value="SAG">SAG
     <input type='checkbox' value="IATSE">IATSE
     <input type='checkbox' value="SSDC">SSDC
     <input type='checkbox' value="DGA">DGA
-    <input type='checkbox' value="AGMA">AGMA
+    <input type='checkbox' value="AGMA">AGMA -->
+
+    <label ng-repeat="union in unions">
+      <input 
+        type="checkbox"
+        name="selectedUnions[]"
+        value="{{union}}"
+        ng-checked="selection.indexOf(union) > -1"
+        ng-click="toggleSelection(union)"
+        >{{union}}
+    </label>
 
     <p>Skills</p>
     <input type='checkbox' value="Accompanist">Accompanist
@@ -130,10 +144,10 @@
     <input type='checkbox' value="Writer">Writer
 
     <p>Upload a Headshot</p>
-    <input type="file">
+    <input type="file" ng-model="actor.headshot">
 
     <p>Upload a PDF Resume</p>
-    <input type="file">
+    <input type="file"  ng-model="actor.resume">
 
     <br>
 
