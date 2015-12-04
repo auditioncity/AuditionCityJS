@@ -3,15 +3,15 @@ let UserService = function($http, $cookies, $state, FILESERVER) {
   // console.log(FILESERVER);
   let vm = this;
 
-  vm.checkAuth = function() {
-    let token = $cookies.get('authToken');
-    FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = token;
-    if (token) {
-      return $http.get(FILESERVER.URL + 'check', FILESERVER.CONFIG);
-    } else {
-      $state.go('root.login');
-    }
-  };
+  // vm.checkAuth = function() {
+  //   let token = $cookies.get('authToken');
+  //   FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = token;
+  //   if (token) {
+  //     return $http.get(FILESERVER.URL, FILESERVER.CONFIG);
+  //   } else {
+  //     $state.go('root.login');
+  //   }
+  // };
 
   vm.sendLogin = function(userObj) {
     return $http.post(FILESERVER.URL + 'login', userObj, FILESERVER.CONFIG);

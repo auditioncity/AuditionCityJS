@@ -78,12 +78,23 @@
         type="checkbox"
         name="selectedUnions[]"
         value="{{union}}"
-        ng-checked="selection.indexOf(union) > -1"
-        ng-click="toggleSelection(union)"
+        ng-checked="actor.union.indexOf(union) > -1"
+        ng-click="toggleUnion(union)"
         >{{union}}
     </label>
 
     <p>Skills</p>
+    <label ng-repeat="skill in skills">
+      <input
+        type="checkbox"
+        name="selectedSkills[]"
+        value="{{skill}}"
+        ng-checked="actor.skills.indexOf(skill) > -1"
+        ng-click="toggleSkill(skill)"
+        >{{skill}}
+    </label>
+
+      <!-- 
     <input type='checkbox' value="Accompanist">Accompanist
     <input type='checkbox' value="Acting Instructor">Acting Instructor
     <input type='checkbox' value="Actor">Actor
@@ -141,7 +152,7 @@
     <input type='checkbox' value="Voice Talent">Voice Talent
     <input type='checkbox' value="Volunteer or Board">Volunteer or Board
     <input type='checkbox' value="Web Designer">Web Designer
-    <input type='checkbox' value="Writer">Writer
+    <input type='checkbox' value="Writer">Writer -->
 
     <p>Upload a Headshot</p>
     <input type="file" ng-model="actor.headshot">
