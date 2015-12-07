@@ -1,16 +1,25 @@
-let registerActorController = function($scope) {
+let registerActorController = function($scope, AddActorService, $http, FILESERVER) {
   
   let vm = this;
   vm.title = 'Register as an actor';
 
+
+
   $scope.actor = {
     name: null,
-    address: null,
+    address_1: null,
+    address_2: null,
+    city: null,
+    state: null,
+    zip: null,
+    phone_type: null,
     phone: null,
+    email_type: null,
     email: null,
     Website: null,
     bio: null,
-    age: null,
+    age_young: null,
+    age_old: null,
     height_feet: null,
     height_inches: null,
     hair_color: null,
@@ -19,13 +28,33 @@ let registerActorController = function($scope) {
     ethnicity: null,
     talent_agency: null,
     union: [],
-    skills: [],
-    headshot: null,
-    resume: null
+    skills: []
   };
 
   vm.sendData = function(actor) {
     console.log(actor);
+
+    let headshotFile = document.getElementById('headshot').files[0];
+    let resumeFile = document.getElementById('resume').files[0];
+
+
+    var formData = new FormData();
+    formData.append("headshot", headshotFile);
+    formData.append("resume", resumeFile);
+    formData.append("info", $scope.actor);
+
+    return $http({
+      method: 'POST',
+      url: FILESERVER.URL + '/actors/new',
+      headers: {
+          'Content-Type': 'multipart/form-data',
+          'authToken': ''
+      },
+      data: formData
+      }).then(function(result) {
+      console.log(result);
+      return result.data;
+    });
   };
 
   $scope.unions= ['Equity', 'AFTRA', 'SAG', 'IATSE', 'SSDC', 'DGA', 'AGMA'];
@@ -69,6 +98,6 @@ let registerActorController = function($scope) {
 };
 
 
-registerActorController.$inject = ['$scope'];
+registerActorController.$inject = ['$scope', 'AddActorService', '$http', 'FILESERVER'];
 
 export default registerActorController;
