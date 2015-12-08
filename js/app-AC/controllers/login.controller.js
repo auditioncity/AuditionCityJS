@@ -15,6 +15,7 @@ let LoginController = function($cookies, UserService, $state) {
   vm.signup = function(newuser) {
     UserService.sendSignup(newuser).then( (res) => {
       UserService.signupSuccess(res);
+      console.log(res);
     });
   };
 

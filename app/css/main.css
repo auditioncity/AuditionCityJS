@@ -1,4 +1,11 @@
 body {
-  background: #e2ebf3; }
+  background: #970D00;
+  color: white; }
+  body button {
+    background: #970D00;
+    border: none;
+    border-radius: 25px; }
+  body input {
+    color: black; }
 
 /*# sourceMappingURL=main.css.map */

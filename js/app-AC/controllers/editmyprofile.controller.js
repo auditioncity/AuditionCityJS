@@ -1,8 +1,7 @@
-let registerActorController = function($scope, $http, FILESERVER, $cookies, $state) {
+let editMyProfileController = function($scope, $http, FILESERVER, $cookies, $state) {
   
   let vm = this;
-  vm.title = 'Register as an actor';
-
+  vm.title = "My Profile"
 
   $scope.actor = {
     name: null,
@@ -42,16 +41,13 @@ let registerActorController = function($scope, $http, FILESERVER, $cookies, $sta
     formData.append("resume", resumeFile);
     formData.append("info", JSON.stringify($scope.actor));
 
-    // let x = new Blob([$scope.actor], {type : 'application/json'});
-    // formData.append("info", x);
-
     // console.log(document.cookie.substr(10,42));
 
     return $http({
-      method: 'POST',
-      url: FILESERVER.URL + 'actors/new',
+      method: 'PUT',
+      url: FILESERVER.URL + 'actors/:id',
       headers: {
-          'Content-Type': undefined,
+          'Content-Type': null,
           'Access-Token': $cookies.get('authToken')
       },
       data: formData
@@ -111,6 +107,6 @@ let registerActorController = function($scope, $http, FILESERVER, $cookies, $sta
 };
 
 
-registerActorController.$inject = ['$scope', '$http', 'FILESERVER', '$cookies', '$state'];
+editMyProfileController.$inject = ['$scope', '$http', 'FILESERVER', '$cookies', '$state'];
 
-export default registerActorController;
+export default editMyProfileController;

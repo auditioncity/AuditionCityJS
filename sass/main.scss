@@ -1,6 +1,17 @@
 // Put any @imports here
 // See Readme for a list of supported ones
 
+$ourRed: #970D00;
+
 body {
-  background: #e2ebf3;
+  background: $ourRed;
+  color: white;
+  button{
+    background: $ourRed;
+    border: none;
+    border-radius: 25px;
+  }
+  input{
+    color: black;
+  }
 }

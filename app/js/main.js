@@ -4,6 +4,102 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+var editMyProfileController = function editMyProfileController($scope, $http, FILESERVER, $cookies, $state) {
+
+  var vm = this;
+  vm.title = "My Profile";
+
+  $scope.actor = {
+    name: null,
+    address_1: null,
+    address_2: null,
+    city: null,
+    state: null,
+    zip: null,
+    phone_type: null,
+    phone: null,
+    email_type: null,
+    email: null,
+    Website: null,
+    bio: null,
+    age_young: null,
+    age_old: null,
+    height_feet: null,
+    height_inches: null,
+    hair_color: null,
+    eye_color: null,
+    gender: null,
+    ethnicity: null,
+    talent_agency: null,
+    union: [],
+    skills: []
+  };
+
+  vm.sendData = function (actor) {
+    // console.log(actor);
+
+    var headshotFile = document.getElementById('headshot').files[0];
+    var resumeFile = document.getElementById('resume').files[0];
+
+    var formData = new FormData();
+    formData.append("headshot", headshotFile);
+    formData.append("resume", resumeFile);
+    formData.append("info", JSON.stringify($scope.actor));
+
+    // console.log(document.cookie.substr(10,42));
+
+    return $http({
+      method: 'PUT',
+      url: FILESERVER.URL + 'actors/:id',
+      headers: {
+        'Content-Type': null,
+        'Access-Token': $cookies.get('authToken')
+      },
+      data: formData
+    }).then(function (result) {
+      console.log(result);
+      return result.data;
+    });
+  };
+
+  vm.gohome = function () {
+    $state.go('root.home');
+  };
+
+  $scope.unions = ['Equity', 'AFTRA', 'SAG', 'IATSE', 'SSDC', 'DGA', 'AGMA'];
+
+  $scope.skills = ['Accompanist', 'Acting Instructor', 'Actor', 'Administrator', 'Artistic Director', 'Board Operator', 'Bookkeeper/Accounting', 'Carpenter', 'Choreographer', 'Composer', 'Costume Designer', 'Dance Instructor', 'Dancer', 'Development/Fundraising', 'Dialect Coach', 'Director', 'Dramaturg', 'Educator', 'Fight Choreographer', 'Front of House/Box Office', 'Graphic Designer', 'Hair/Makeup/Wig Artist', 'Improv Artist', 'Lighting Designer', 'Literary Manager', 'Managing Director', 'Marketing', 'Model', 'Multimedia Specialist', 'Music Director', 'Musician', 'Painter/Scenic Artist', 'Photographer', 'Playwright', 'Producer', 'Production Manager', 'Prop Artisan', 'Public Relations', 'Puppeteer', 'Scenic Designer', 'Screenwriter', 'Sign Interpreter', 'Singer', 'Sound Designer', 'Sound Technician', 'Special Effects/Pyrotechnics', 'Stage Combatant', 'Stage Manager', 'Student', 'Technical Director', 'Translator', 'Video/Film Editor', 'Videographer', 'Vocal Coach', 'Voice Talent', 'Volunteer or Board', 'Web Designer', 'Writer'];
+
+  $scope.toggleUnion = function (union) {
+    var idx = $scope.actor.union.indexOf(union);
+    if (idx > -1) {
+      $scope.actor.union.splice(idx, 1);
+    } else {
+      $scope.actor.union.push(union);
+    }
+  };
+
+  $scope.toggleSkill = function (skill) {
+    var idx = $scope.actor.skills.indexOf(skill);
+    if (idx > -1) {
+      $scope.actor.skills.splice(idx, 1);
+    } else {
+      $scope.actor.skills.push(skill);
+    }
+  };
+};
+
+editMyProfileController.$inject = ['$scope', '$http', 'FILESERVER', '$cookies', '$state'];
+
+exports['default'] = editMyProfileController;
+module.exports = exports['default'];
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 var LoginController = function LoginController($cookies, UserService, $state) {
 
   var vm = this;
@@ -21,6 +117,7 @@ var LoginController = function LoginController($cookies, UserService, $state) {
   vm.signup = function (newuser) {
     UserService.sendSignup(newuser).then(function (res) {
       UserService.signupSuccess(res);
+      console.log(res);
     });
   };
 };
@@ -30,13 +127,13 @@ LoginController.$inject = ['$cookies', 'UserService', '$state'];
 exports['default'] = LoginController;
 module.exports = exports['default'];
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var registerActorController = function registerActorController($scope, AddActorService, $http, FILESERVER) {
+var registerActorController = function registerActorController($scope, $http, FILESERVER, $cookies, $state) {
 
   var vm = this;
   vm.title = 'Register as an actor';
@@ -68,7 +165,7 @@ var registerActorController = function registerActorController($scope, AddActorS
   };
 
   vm.sendData = function (actor) {
-    console.log(actor);
+    // console.log(actor);
 
     var headshotFile = document.getElementById('headshot').files[0];
     var resumeFile = document.getElementById('resume').files[0];
@@ -76,20 +173,29 @@ var registerActorController = function registerActorController($scope, AddActorS
     var formData = new FormData();
     formData.append("headshot", headshotFile);
     formData.append("resume", resumeFile);
-    formData.append("info", $scope.actor);
+    formData.append("info", JSON.stringify($scope.actor));
+
+    // let x = new Blob([$scope.actor], {type : 'application/json'});
+    // formData.append("info", x);
+
+    // console.log(document.cookie.substr(10,42));
 
     return $http({
       method: 'POST',
-      url: FILESERVER.URL + '/actors/new',
+      url: FILESERVER.URL + 'actors/new',
       headers: {
-        'Content-Type': 'multipart/form-data',
-        'authToken': FILESERVER.CONFIG.headers['X-AUTH-TOKEN']
+        'Content-Type': undefined,
+        'Access-Token': $cookies.get('authToken')
       },
       data: formData
     }).then(function (result) {
       console.log(result);
       return result.data;
     });
+  };
+
+  vm.gohome = function () {
+    $state.go('root.home');
   };
 
   $scope.unions = ['Equity', 'AFTRA', 'SAG', 'IATSE', 'SSDC', 'DGA', 'AGMA'];
@@ -115,12 +221,12 @@ var registerActorController = function registerActorController($scope, AddActorS
   };
 };
 
-registerActorController.$inject = ['$scope', 'AddActorService', '$http', 'FILESERVER'];
+registerActorController.$inject = ['$scope', '$http', 'FILESERVER', '$cookies', '$state'];
 
 exports['default'] = registerActorController;
 module.exports = exports['default'];
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -139,9 +245,13 @@ var _controllersLoginController = require('./controllers/login.controller');
 
 var _controllersLoginController2 = _interopRequireDefault(_controllersLoginController);
 
-_angular2['default'].module('app.AC', ['app.core']).controller('registerActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']);
+var _controllersEditmyprofileController = require('./controllers/editmyprofile.controller');
 
-},{"../app-core/index":6,"./controllers/login.controller":1,"./controllers/registerActor.controller":2,"angular":17}],4:[function(require,module,exports){
+var _controllersEditmyprofileController2 = _interopRequireDefault(_controllersEditmyprofileController);
+
+_angular2['default'].module('app.AC', ['app.core']).controller('registerActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('editMyProfileController', _controllersEditmyprofileController2['default']);
+
+},{"../app-core/index":7,"./controllers/editmyprofile.controller":1,"./controllers/login.controller":2,"./controllers/registerActor.controller":3,"angular":17}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -163,10 +273,14 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/login',
     controller: 'LoginController as vm',
     templateUrl: 'templates/app-AC/login.tpl.html'
-  }).state('root.actorinfo', {
-    url: '/actorinfo',
+  }).state('root.registeractor', {
+    url: '/registeractor',
     controller: 'registerActorController as vm',
-    templateUrl: 'templates/app-AC/actorinfo.tpl.html'
+    templateUrl: 'templates/app-AC/registeractor.tpl.html'
+  }).state('root.myprofile', {
+    url: '/editmyprofile/:id',
+    controller: 'editMyProfileController as vm',
+    templateUrl: 'templates/app-AC/editmyprofile.tpl.html'
   });
 };
 
@@ -175,7 +289,7 @@ config.$inject = ['$stateProvider', '$urlRouterProvider'];
 exports['default'] = config;
 module.exports = exports['default'];
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -192,7 +306,7 @@ exports['default'] = {
 module.exports = exports['default'];
 // 'Content-Type': undefined
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -213,7 +327,7 @@ var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverC
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
 
-},{"./config":4,"./constants/fileserver.constant":5,"angular":17,"angular-ui-router":15}],7:[function(require,module,exports){
+},{"./config":5,"./constants/fileserver.constant":6,"angular":17,"angular-ui-router":15}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -223,22 +337,6 @@ var HomeController = function HomeController(UserService, $state) {
 
   var vm = this;
   vm.title = 'AuditionCity';
-  var promise = UserService.checkAuth();
-
-  if (promise) {
-    promise.then(function (res) {
-      console.log(res);
-      if (res.data.status === 'Authentication failed.') {
-        $state.go('root.login');
-      } else {
-        vm.message = 'I am logged in';
-      }
-    });
-  }
-
-  // vm.logmeout = function() {
-  //   UserService.logout();
-  // };
 };
 
 HomeController.$inject = ['UserService', '$state'];
@@ -246,7 +344,7 @@ HomeController.$inject = ['UserService', '$state'];
 exports['default'] = HomeController;
 module.exports = exports['default'];
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -260,13 +358,29 @@ var LayoutController = function LayoutController(UserService, $state, FILESERVER
     UserService.logout();
   };
 
-  vm.goact = function () {
-    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] === null) {
+  vm.editmyprofile = function () {
+    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
       $state.go('root.login');
     } else {
-      $state.go('root.actorinfo');
+      $state.go('root.myprofile');
     }
   };
+
+  vm.gohome = function () {
+    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
+      $state.go('root.login');
+    } else {
+      $state.go('root.home');
+    }
+  };
+
+  // vm.goact = function() {
+  //   if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] === null) {
+  //     $state.go('root.login')
+  //   } else {
+  //   $state.go('root.actorinfo');
+  //   } 
+  // };
 };
 
 LayoutController.$inject = ['UserService', '$state', 'FILESERVER'];
@@ -274,7 +388,7 @@ LayoutController.$inject = ['UserService', '$state', 'FILESERVER'];
 exports['default'] = LayoutController;
 module.exports = exports['default'];
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -295,50 +409,9 @@ var _servicesUserService = require('./services/user.service');
 
 var _servicesUserService2 = _interopRequireDefault(_servicesUserService);
 
-var _servicesAddactorService = require('./services/addactor.service');
+_angular2['default'].module('app.layout', [require('angular-cookies')]).controller('HomeController', _controllersHomeController2['default']).controller('LayoutController', _controllersLayoutController2['default']).service('UserService', _servicesUserService2['default']);
 
-var _servicesAddactorService2 = _interopRequireDefault(_servicesAddactorService);
-
-_angular2['default'].module('app.layout', [require('angular-cookies')]).controller('HomeController', _controllersHomeController2['default']).controller('LayoutController', _controllersLayoutController2['default']).service('UserService', _servicesUserService2['default']).service('AddActorService', _servicesAddactorService2['default']);
-
-},{"./controllers/home.controller":7,"./controllers/layout.controller":8,"./services/addactor.service":10,"./services/user.service":11,"angular":17,"angular-cookies":14}],10:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-        value: true
-});
-var AddActorService = function AddActorService(FILESERVER) {
-
-        // turn this into a controller and service then ping tim
-
-        // var formData = new FormData();
-        // formData.append("file", $scope.actor);
-
-        // return $http({
-        //     method: 'POST',
-        //     url: URL + '/actors/new',
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //         'Access-Token': FILESERVER.CONFIG.headers.X-AUTH-TOKEN
-        //     },
-        //     data: {
-        //         formData
-        //     },
-        //     transformRequest: formDataObject
-        // }).
-        // then(function(result) {
-        //     console.log(result);
-        //     return result.data;
-        // });
-
-};
-
-AddActorService.$inject = ['FILESERVER'];
-
-exports['default'] = AddActorService;
-module.exports = exports['default'];
-
-},{}],11:[function(require,module,exports){
+},{"./controllers/home.controller":8,"./controllers/layout.controller":9,"./services/user.service":11,"angular":17,"angular-cookies":14}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -382,7 +455,7 @@ var UserService = function UserService($http, $cookies, $state, FILESERVER) {
   this.signupSuccess = function (res) {
     $cookies.put('authToken', res.data.user.auth_token);
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = res.data.user.auth_token;
-    $state.go('root.home');
+    $state.go('root.registeractor');
   };
 };
 
@@ -408,7 +481,7 @@ require('./app-layout/index');
 
 _angular2['default'].module('app', ['app.core', 'app.AC', 'app.layout']);
 
-},{"./app-AC/index":3,"./app-core/index":6,"./app-layout/index":9,"angular":17}],13:[function(require,module,exports){
+},{"./app-AC/index":4,"./app-core/index":7,"./app-layout/index":10,"angular":17}],13:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org

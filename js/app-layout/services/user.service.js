@@ -36,7 +36,7 @@ let UserService = function($http, $cookies, $state, FILESERVER) {
   this.signupSuccess = function(res) {
     $cookies.put('authToken', res.data.user.auth_token);
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = res.data.user.auth_token;
-    $state.go('root.home');
+    $state.go('root.registeractor');
   };
 
 };

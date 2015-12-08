@@ -1,0 +1,233 @@
+<h3>{{vm.title}}</h3>
+
+<div>
+  <form ng-submit="vm.sendData(actor)">
+    <input placeholder='Name' ng-model="actor.name">
+
+    <input placeholder='Address 1' ng-model="actor.address_1">
+    <input placeholder='Address 2' ng-model="actor.address_2">
+    <input placeholder="City" ng-model="actor.city">
+    <select ng-model="actor.state">
+      <option value="AL">AL</option>
+      <option value="AK">AK</option>
+      <option value="AZ">AZ</option>
+      <option value="AR">AR</option>
+      <option value="CA">CA</option>
+      <option value="CO">CO</option>
+      <option value="CT">CT</option>
+      <option value="DE">DE</option>
+      <option value="FL">FL</option>
+      <option value="GA">GA</option>
+      <option value="HI">HI</option>
+      <option value="ID">ID</option>
+      <option value="IL">IL</option>
+      <option value="IN">IN</option>
+      <option value="IA">IA</option>
+      <option value="KS">KS</option>
+      <option value="KY">KY</option>
+      <option value="LA">LA</option>
+      <option value="ME">ME</option>
+      <option value="MD">MD</option>
+      <option value="MA">MA</option>
+      <option value="MI">MI</option>
+      <option value="MN">MN</option>
+      <option value="MS">MS</option>
+      <option value="MO">MO</option>
+      <option value="MT">MT</option>
+      <option value="NE">NE</option>
+      <option value="NV">NV</option>
+      <option value="NH">NH</option>
+      <option value="NJ">NJ</option>
+      <option value="NM">NM</option>
+      <option value="NY">NY</option>
+      <option value="NC">NC</option>
+      <option value="ND">ND</option>
+      <option value="OH">OH</option>
+      <option value="OK">OK</option>
+      <option value="OR">OR</option>
+      <option value="PA">PA</option>
+      <option value="RI">RI</option>
+      <option value="SC">SC</option>
+      <option value="SD">SD</option>
+      <option value="TN">TN</option>
+      <option value="TX">TX</option>
+      <option value="UT">UT</option>
+      <option value="VT">VT</option>
+      <option value="VA">VA</option>
+      <option value="WA">WA</option>
+      <option value="WV">WV</option>
+      <option value="WI">WI</option>
+      <option value="WY">WY</option>
+    </select>
+    <input placeholder="zip" ng-model="actor.zip">
+
+    <select ng-model="actor.phone_type">
+      <option value="Home">Home</option>
+      <option value="Work">Work</option>
+      <option value="Cell">Cell</option>
+    </select>
+
+    <input placeholder='Phone' type="tel" ng-model="actor.phone">
+
+    <select ng-model="actor.email_type">
+      <option value="Home">Home</option>
+      <option value="Work">Work</option>
+    </select>
+
+    <input placeholder='Email' type="email" ng-model="actor.email">
+
+    <input placeholder='Website' type="url" ng-model="actor.website">
+
+    <input placeholder='Bio' ng-model="actor.bio">
+
+    <input type="number" placeholder='Youngest Age' ng-model="actor.age_young">
+    <input type="number" placeholder='Oldest Age' ng-model="actor.age_old">
+
+    <input type="number" placeholder='Feet'  ng-model="actor.height_feet">
+
+    <input type="number" placeholder='Inches' ng-model="actor.height_inches">
+
+    <p>Hair Color</p>
+    <select name="hair_color" ng-model="actor.hair_color">
+      <option value="Blonde">blonde</option>
+      <option value="Brown">Brown</option>
+      <option value="Hazel">Hazel</option>
+      <option value="Grey">Grey</option>
+      <option value="Black">Black</option>
+      <option value="Red">Red</option>
+      <option value="White">White</option>
+      <option value="Other">Other</option>
+      <option value="None">None</option>
+    </select>
+
+    <p>Eye Color</p>
+    <select name="eye_color" ng-model="actor.eye_color">
+      <option value="Blue">Blue</option>
+      <option value="Brown">Brown</option>
+      <option value="Hazel">Hazel</option>
+      <option value="Green">Green</option>
+      <option value="Black">Black</option>
+      <option value="Grey">Grey</option>
+      <option value="Purple">Purple</option>
+    </select>
+
+    <p>Gender</p>
+    <select name="gender" ng-model="actor.gender">
+      <option value="Male">Male</option>
+      <option  value="Female">Female</option>
+    </select>
+
+    <p>Ethnicity</p>
+    <select name="ethnicity" ng-model="actor.ethnicity">
+      <option value="Black/African American">Black/African American</option>
+      <option value="Hispanic/Latino">Hispanic/Latino</option>
+      <option value="Asian/Pacific Islander">Asian/Pacific Islander</option>
+      <option value="White/Caucasian">White/Caucasian</option>
+      <option value="American Indian/Alaskan Native">American Indian/Alaskan Native</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <input placeholder='Talent Agency' ng-model="actor.talent_agency">
+
+    <p>Union</p>
+<!--     <input type='checkbox' value="Equity">Equity
+    <input type='checkbox' value="AFTRA">AFTRA
+    <input type='checkbox' value="SAG">SAG
+    <input type='checkbox' value="IATSE">IATSE
+    <input type='checkbox' value="SSDC">SSDC
+    <input type='checkbox' value="DGA">DGA
+    <input type='checkbox' value="AGMA">AGMA -->
+
+    <label ng-repeat="union in unions">
+      <input 
+        type="checkbox"
+        name="selectedUnions[]"
+        value="{{union}}"
+        ng-checked="actor.union.indexOf(union) > -1"
+        ng-click="toggleUnion(union)"
+        >{{union}}
+    </label>
+
+    <p>Skills</p>
+    <label ng-repeat="skill in skills">
+      <input
+        type="checkbox"
+        name="selectedSkills[]"
+        value="{{skill}}"
+        ng-checked="actor.skills.indexOf(skill) > -1"
+        ng-click="toggleSkill(skill)"
+        >{{skill}}
+    </label>
+
+      <!-- 
+    <input type='checkbox' value="Accompanist">Accompanist
+    <input type='checkbox' value="Acting Instructor">Acting Instructor
+    <input type='checkbox' value="Actor">Actor
+    <input type='checkbox' value="Administrator">Administrator
+    <input type='checkbox' value="Artistic Director">Artistic Director
+    <input type='checkbox' value="Board Operator">Board Operator
+    <input type='checkbox' value="Bookkeeper/Accounting">Bookkeeper/Accounting
+    <input type='checkbox' value="Carpenter">Carpenter
+    <input type='checkbox' value="Choreographer">Choreographer
+    <input type='checkbox' value="Composer">Composer
+    <input type='checkbox' value="Costume Designer">Costume Designer
+    <input type='checkbox' value="Dance Instructor">Dance Instructor
+    <input type='checkbox' value="Dancer">Dancer
+    <input type='checkbox' value="Development/Fundraising">Development/Fundraising
+    <input type='checkbox' value="Dialect Coach">Dialect Coach
+    <input type='checkbox' value="Director">Director
+    <input type='checkbox' value="Dramaturg">Dramaturg
+    <input type='checkbox' value="Educator">Educator
+    <input type='checkbox' value="Fight Choreographer">Fight Choreographer
+    <input type='checkbox' value="Front of House/Box Office">Front of House/Box Office
+    <input type='checkbox' value="Graphic Designer">Graphic Designer
+    <input type='checkbox' value="Hair/Makeup/Wig Artist">Hair/Makeup/Wig Artist
+    <input type='checkbox' value="Improv Artist">Improv Artist
+    <input type='checkbox' value="Lighting Designer">Lighting Designer
+    <input type='checkbox' value="Literary Manager">Literary Manager
+    <input type='checkbox' value="Managing Director">Managing Director
+    <input type='checkbox' value="Marketing">Marketing
+    <input type='checkbox' value="Model">Model
+    <input type='checkbox' value="Multimedia Specialist">Multimedia Specialist
+    <input type='checkbox' value="Music Director">Music Director
+    <input type='checkbox' value="Musician">Musician
+    <input type='checkbox' value="Painter/Scenic Artist">Painter/Scenic Artist
+    <input type='checkbox' value="Photographer">Photographer
+    <input type='checkbox' value="Playwright">Playwright
+    <input type='checkbox' value="Producer">Producer
+    <input type='checkbox' value="Production Manager">Production Manager
+    <input type='checkbox' value="Prop Artisan">Prop Artisan
+    <input type='checkbox' value="Public Relations">Public Relations
+    <input type='checkbox' value="Puppeteer">Puppeteer
+    <input type='checkbox' value="Scenic Designer">Scenic Designer
+    <input type='checkbox' value="Screenwriter">Screenwriter
+    <input type='checkbox' value="Sign Interpreter">Sign Interpreter
+    <input type='checkbox' value="Singer">Singer
+    <input type='checkbox' value="Sound Designer">Sound Designer
+    <input type='checkbox' value="Sound Technician">Sound Technician
+    <input type='checkbox' value="Special Effects/Pyrotechnics">Special Effects/Pyrotechnics
+    <input type='checkbox' value="Stage Combatant">Stage Combatant
+    <input type='checkbox' value="Stage Manager">Stage Manager
+    <input type='checkbox' value="Student">Student
+    <input type='checkbox' value="Technical Director">Technical Director
+    <input type='checkbox' value="Translator">Translator
+    <input type='checkbox' value="Video/Film Editor">Video/Film Editor
+    <input type='checkbox' value="Videographer">Videographer
+    <input type='checkbox' value="Vocal Coach">Vocal Coach
+    <input type='checkbox' value="Voice Talent">Voice Talent
+    <input type='checkbox' value="Volunteer or Board">Volunteer or Board
+    <input type='checkbox' value="Web Designer">Web Designer
+    <input type='checkbox' value="Writer">Writer -->
+
+    <p>Upload a Headshot</p>
+    <input type="file" file-model="headshot" id="headshot">
+
+    <p>Upload a PDF Resume</p>
+    <input type="file" file-model="resume" id="resume">
+
+    <br>
+
+    <button type="submit">Submit</button>
+
+  </form>
+</div>
