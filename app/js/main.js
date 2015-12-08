@@ -83,7 +83,7 @@ var registerActorController = function registerActorController($scope, AddActorS
       url: FILESERVER.URL + '/actors/new',
       headers: {
         'Content-Type': 'multipart/form-data',
-        'authToken': ''
+        'authToken': FILESERVER.CONFIG.headers['X-AUTH-TOKEN']
       },
       data: formData
     }).then(function (result) {
