@@ -1,22 +1,20 @@
-<h3>{{vm.title}}</h3>
+<h1>{{vm.title}}</h1>
 
-<hr>
 
-<div class="login">
-  <h3 class="login-header">Login</h3>
+<div class="main login">
+  <h3 class="login-header">Go to my account</h3>
   <form ng-submit="vm.login(user)">
     <input type="email" placeholder="Email" ng-model="user.email">
     <br>
     <input type="password" placeholder="password" ng-model="user.password">
     <br>
-    <button>Login</button>
+    <button class="mainbtn">Login</button>
   </form>
 </div>
 
-<hr>
 
-<div class="register">
-  <h3 class="register-header">Register</h3>
+<div class="main register">
+  <h3 class="register-header">Sign up for a new account</h3>
   <form ng-submit="vm.signup(newuser)">
     <input placeholder="Full Name" ng-model="newuser.full_name">
     <br>
@@ -24,6 +22,6 @@
     <br>
     <input placeholder="password" ng-model="newuser.password">
     <br>
-    <button>Register</button>
+    <button class="mainbtn">Register</button>
   </form>
 </div>
