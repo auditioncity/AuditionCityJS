@@ -103,14 +103,14 @@ Object.defineProperty(exports, '__esModule', {
 var LoginController = function LoginController($cookies, UserService, $state) {
 
   var vm = this;
-  vm.title = 'AuditionCity';
+  vm.title = "AuditionCity";
   // console.log(UserService);
 
   vm.login = function (user) {
     // console.log(user);
     UserService.sendLogin(user).then(function (res) {
       UserService.loginSuccess(res);
-      // console.log(res);
+      console.log(res);
     });
   };
 
@@ -128,6 +128,33 @@ exports['default'] = LoginController;
 module.exports = exports['default'];
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var myProfileController = function myProfileController($stateParams, $http, FILESERVER, $cookies) {
+
+  var vm = this;
+  vm.title = "My Profile";
+
+  return $http({
+    method: 'GET',
+    url: FILESERVER.URL + 'actors/' + $stateParams.id,
+    headers: {
+      'Access-Token': $cookies.get('authToken')
+    }
+  }).then(function (result) {
+    console.log(result);
+  });
+};
+
+myProfileController.$inject = ['$stateParams', '$http', 'FILESERVER', '$cookies'];
+
+exports['default'] = myProfileController;
+module.exports = exports['default'];
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -190,12 +217,9 @@ var registerActorController = function registerActorController($scope, $http, FI
       data: formData
     }).then(function (result) {
       console.log(result);
-      return result.data;
+      $state.go('root.myprofile', { id: result.data.actor.id });
+      // return result.data;
     });
-  };
-
-  vm.gohome = function () {
-    $state.go('root.home');
   };
 
   $scope.unions = ['Equity', 'AFTRA', 'SAG', 'IATSE', 'SSDC', 'DGA', 'AGMA'];
@@ -226,7 +250,7 @@ registerActorController.$inject = ['$scope', '$http', 'FILESERVER', '$cookies', 
 exports['default'] = registerActorController;
 module.exports = exports['default'];
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -249,9 +273,13 @@ var _controllersEditmyprofileController = require('./controllers/editmyprofile.c
 
 var _controllersEditmyprofileController2 = _interopRequireDefault(_controllersEditmyprofileController);
 
-_angular2['default'].module('app.AC', ['app.core']).controller('registerActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('editMyProfileController', _controllersEditmyprofileController2['default']);
+var _controllersMyprofileController = require('./controllers/myprofile.controller');
 
-},{"../app-core/index":7,"./controllers/editmyprofile.controller":1,"./controllers/login.controller":2,"./controllers/registerActor.controller":3,"angular":17}],5:[function(require,module,exports){
+var _controllersMyprofileController2 = _interopRequireDefault(_controllersMyprofileController);
+
+_angular2['default'].module('app.AC', ['app.core']).controller('registerActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('editMyProfileController', _controllersEditmyprofileController2['default']).controller('myProfileController', _controllersMyprofileController2['default']);
+
+},{"../app-core/index":8,"./controllers/editmyprofile.controller":1,"./controllers/login.controller":2,"./controllers/myprofile.controller":3,"./controllers/registerActor.controller":4,"angular":18}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -277,10 +305,14 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/registeractor',
     controller: 'registerActorController as vm',
     templateUrl: 'templates/app-AC/registeractor.tpl.html'
-  }).state('root.myprofile', {
+  }).state('root.editmyprofile', {
     url: '/editmyprofile/:id',
     controller: 'editMyProfileController as vm',
     templateUrl: 'templates/app-AC/editmyprofile.tpl.html'
+  }).state('root.myprofile', {
+    url: '/myprofile/:id',
+    controller: 'myProfileController as vm',
+    templateUrl: 'templates/app-AC/myprofile.tpl.html'
   });
 };
 
@@ -289,7 +321,7 @@ config.$inject = ['$stateProvider', '$urlRouterProvider'];
 exports['default'] = config;
 module.exports = exports['default'];
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -306,7 +338,7 @@ exports['default'] = {
 module.exports = exports['default'];
 // 'Content-Type': undefined
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -327,7 +359,7 @@ var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverC
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
 
-},{"./config":5,"./constants/fileserver.constant":6,"angular":17,"angular-ui-router":15}],8:[function(require,module,exports){
+},{"./config":6,"./constants/fileserver.constant":7,"angular":18,"angular-ui-router":16}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -344,7 +376,7 @@ HomeController.$inject = ['UserService', '$state'];
 exports['default'] = HomeController;
 module.exports = exports['default'];
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -362,7 +394,7 @@ var LayoutController = function LayoutController(UserService, $state, FILESERVER
     if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
       $state.go('root.login');
     } else {
-      $state.go('root.myprofile');
+      $state.go('root.editmyprofile');
     }
   };
 
@@ -371,6 +403,14 @@ var LayoutController = function LayoutController(UserService, $state, FILESERVER
       $state.go('root.login');
     } else {
       $state.go('root.home');
+    }
+  };
+
+  vm.goprofile = function () {
+    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
+      $state.go('root.login');
+    } else {
+      $state.go('root.myprofile');
     }
   };
 
@@ -388,7 +428,7 @@ LayoutController.$inject = ['UserService', '$state', 'FILESERVER'];
 exports['default'] = LayoutController;
 module.exports = exports['default'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -411,7 +451,7 @@ var _servicesUserService2 = _interopRequireDefault(_servicesUserService);
 
 _angular2['default'].module('app.layout', [require('angular-cookies')]).controller('HomeController', _controllersHomeController2['default']).controller('LayoutController', _controllersLayoutController2['default']).service('UserService', _servicesUserService2['default']);
 
-},{"./controllers/home.controller":8,"./controllers/layout.controller":9,"./services/user.service":11,"angular":17,"angular-cookies":14}],11:[function(require,module,exports){
+},{"./controllers/home.controller":9,"./controllers/layout.controller":10,"./services/user.service":12,"angular":18,"angular-cookies":15}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -464,7 +504,7 @@ UserService.$inject = ['$http', '$cookies', '$state', 'FILESERVER'];
 exports['default'] = UserService;
 module.exports = exports['default'];
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -481,7 +521,7 @@ require('./app-layout/index');
 
 _angular2['default'].module('app', ['app.core', 'app.AC', 'app.layout']);
 
-},{"./app-AC/index":4,"./app-core/index":7,"./app-layout/index":10,"angular":17}],13:[function(require,module,exports){
+},{"./app-AC/index":5,"./app-core/index":8,"./app-layout/index":11,"angular":18}],14:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -804,11 +844,11 @@ angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterPr
 
 })(window, window.angular);
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":13}],15:[function(require,module,exports){
+},{"./angular-cookies":14}],16:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -5179,7 +5219,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -34198,11 +34238,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":16}]},{},[12])
+},{"./angular":17}]},{},[13])
 
 
 //# sourceMappingURL=main.js.map

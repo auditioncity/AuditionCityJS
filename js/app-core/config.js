@@ -23,10 +23,15 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'registerActorController as vm',
       templateUrl: 'templates/app-AC/registeractor.tpl.html'
     })
-    .state('root.myprofile', {
+    .state('root.editmyprofile', {
       url: '/editmyprofile/:id',
       controller: 'editMyProfileController as vm',
       templateUrl: 'templates/app-AC/editmyprofile.tpl.html'
+    })
+    .state('root.myprofile', {
+      url: '/myprofile/:id',
+      controller: 'myProfileController as vm',
+      templateUrl: 'templates/app-AC/myprofile.tpl.html'
     })
     ;
 

@@ -10,7 +10,7 @@ let LayoutController = function(UserService, $state, FILESERVER) {
    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
       $state.go('root.login')
     } else {
-    $state.go('root.myprofile');
+    $state.go('root.editmyprofile');
     }  
   };
 
@@ -19,6 +19,14 @@ let LayoutController = function(UserService, $state, FILESERVER) {
       $state.go('root.login')
     } else {
       $state.go('root.home');
+    }
+  };
+
+  vm.goprofile = function() {
+    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
+      $state.go('root.login')
+    } else {
+      $state.go('root.myprofile');
     }
   };
 

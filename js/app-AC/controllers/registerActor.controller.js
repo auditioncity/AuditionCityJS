@@ -3,7 +3,6 @@ let registerActorController = function($scope, $http, FILESERVER, $cookies, $sta
   let vm = this;
   vm.title = 'Register as an actor';
 
-
   $scope.actor = {
     name: null,
     address_1: null,
@@ -55,15 +54,11 @@ let registerActorController = function($scope, $http, FILESERVER, $cookies, $sta
           'Access-Token': $cookies.get('authToken')
       },
       data: formData
-      }).then(function(result) {
+      }).then( (result) => {
       console.log(result);
-      return result.data;
-    });
-  };
-
-
-  vm.gohome = function() {
-    $state.go('root.home');
+      $state.go('root.myprofile', {id: result.data.actor.id});
+      // return result.data;
+    })
   };
 
 
