@@ -59,7 +59,10 @@ div .profile{
   border-radius: 25px;
   padding: 20px;
   color: black;
-  text-align: center; 
+  text-align: center;
+  span .head{
+    color: $ourRed;
+  } 
 }
 
 div.address{

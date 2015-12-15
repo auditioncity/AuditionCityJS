@@ -1,7 +1,9 @@
 
-<h1>{{ vm.actor.full_name }}</h1>
+<h1>Hello, {{ vm.actor.full_name }}</h1>
 
 <div class="profile">
   <img class="image" src="{{vm.actor.headshot_small}}">
-  
+  <br>
+  <p><span class="head">BIO: </span>{{vm.actor.bio}}</p>
+  <br>
 </div>
