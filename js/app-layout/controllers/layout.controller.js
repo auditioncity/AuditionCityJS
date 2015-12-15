@@ -1,4 +1,4 @@
-let LayoutController = function(UserService, $state, FILESERVER) {
+let LayoutController = function($cookies, UserService, $state, FILESERVER) {
   
   let vm = this;
 
@@ -26,7 +26,7 @@ let LayoutController = function(UserService, $state, FILESERVER) {
     if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
       $state.go('root.login')
     } else {
-      $state.go('root.myprofile');
+      $state.go('root.myprofile', {id: $cookies.get('actor_id')});
     }
   };
 
@@ -40,6 +40,6 @@ let LayoutController = function(UserService, $state, FILESERVER) {
 
 };
 
-LayoutController.$inject = ['UserService', '$state', 'FILESERVER'];
+LayoutController.$inject = ['$cookies', 'UserService', '$state', 'FILESERVER'];
 
 export default LayoutController;

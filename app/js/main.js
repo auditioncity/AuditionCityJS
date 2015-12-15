@@ -128,31 +128,41 @@ exports['default'] = LoginController;
 module.exports = exports['default'];
 
 },{}],3:[function(require,module,exports){
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var myProfileController = function myProfileController($stateParams, $http, FILESERVER, $cookies) {
+var myProfileController = function myProfileController(UserService) {
 
   var vm = this;
-  vm.title = "My Profile";
+  vm.untitle = "My Profile";
 
-  return $http({
-    method: 'GET',
-    url: FILESERVER.URL + 'actors/' + $stateParams.id,
-    headers: {
-      'Access-Token': $cookies.get('authToken')
-    }
-  }).then(function (result) {
-    console.log(result);
+  vm.actor = UserService.myProfile().then(function (result) {
+    // console.log(result);
+    var actor = result.data.actor;
+    vm.actor = actor;
+    console.log(actor);
   });
+
+  // return $http({
+  //     method: 'GET',
+  //     url: FILESERVER.URL + 'actors/' + $cookies.get('actor_id'),
+  //     headers: {
+  //         'Access-Token': $cookies.get('authToken')
+  //     },
+  //   }).then( (result) => {
+  //   // console.log(result);
+  //   let actor = result.data.actor;
+  //   vm.actor = actor;
+  //   // $scope.actor = actor;
+  // });
 };
 
-myProfileController.$inject = ['$stateParams', '$http', 'FILESERVER', '$cookies'];
+myProfileController.$inject = ['UserService'];
 
-exports['default'] = myProfileController;
-module.exports = exports['default'];
+exports["default"] = myProfileController;
+module.exports = exports["default"];
 
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -382,7 +392,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var LayoutController = function LayoutController(UserService, $state, FILESERVER) {
+var LayoutController = function LayoutController($cookies, UserService, $state, FILESERVER) {
 
   var vm = this;
 
@@ -410,7 +420,7 @@ var LayoutController = function LayoutController(UserService, $state, FILESERVER
     if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
       $state.go('root.login');
     } else {
-      $state.go('root.myprofile');
+      $state.go('root.myprofile', { id: $cookies.get('actor_id') });
     }
   };
 
@@ -423,7 +433,7 @@ var LayoutController = function LayoutController(UserService, $state, FILESERVER
   // };
 };
 
-LayoutController.$inject = ['UserService', '$state', 'FILESERVER'];
+LayoutController.$inject = ['$cookies', 'UserService', '$state', 'FILESERVER'];
 
 exports['default'] = LayoutController;
 module.exports = exports['default'];
@@ -479,6 +489,7 @@ var UserService = function UserService($http, $cookies, $state, FILESERVER) {
   vm.loginSuccess = function (res) {
     $cookies.put('authToken', res.data.user.auth_token);
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = res.data.user.auth_token;
+    $cookies.put('actor_id', res.data.user.actor_id);
     $state.go('root.home');
   };
 
@@ -486,6 +497,22 @@ var UserService = function UserService($http, $cookies, $state, FILESERVER) {
     $cookies.remove('authToken');
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = null;
     $state.go('root.login');
+  };
+
+  vm.myProfile = function () {
+    return $http({
+      method: 'GET',
+      url: FILESERVER.URL + 'actors/' + $cookies.get('actor_id'),
+      headers: {
+        'Access-Token': $cookies.get('authToken')
+      }
+    });
+    //   .then( (result) => {
+    // // console.log(result);
+    // let actor = result.data.actor;
+    // vm.actor = actor;
+    // $scope.actor = actor;
+    // });
   };
 
   this.sendSignup = function (newuser) {

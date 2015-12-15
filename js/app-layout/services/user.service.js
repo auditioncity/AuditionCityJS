@@ -20,6 +20,7 @@ let UserService = function($http, $cookies, $state, FILESERVER) {
   vm.loginSuccess = function(res) {
     $cookies.put('authToken', res.data.user.auth_token);
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = res.data.user.auth_token;
+    $cookies.put('actor_id', res.data.user.actor_id);
     $state.go('root.home');
   };
 
@@ -27,6 +28,22 @@ let UserService = function($http, $cookies, $state, FILESERVER) {
     $cookies.remove('authToken');
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = null;
     $state.go('root.login');
+  };
+
+  vm.myProfile = function() {
+      return $http({
+      method: 'GET',
+      url: FILESERVER.URL + 'actors/' + $cookies.get('actor_id'),
+      headers: {
+          'Access-Token': $cookies.get('authToken')
+      },
+    })
+    //   .then( (result) => {
+    // // console.log(result);
+    // let actor = result.data.actor;
+    // vm.actor = actor;
+    // $scope.actor = actor;
+  // });
   };
 
   this.sendSignup = function(newuser) {
