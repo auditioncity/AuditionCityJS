@@ -33,6 +33,11 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'myProfileController as vm',
       templateUrl: 'templates/app-AC/myprofile.tpl.html'
     })
+    .state('root.search', {
+      url: '/search',
+      controller: 'searchController as vm',
+      templateUrl: 'templates/app-AC/search.tpl.html'
+    })
     ;
 
 };

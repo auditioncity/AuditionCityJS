@@ -1,0 +1,82 @@
+<h1>{{vm.title}}</h1>
+<div class="form">
+  <div class="description">
+      <h4>Search for keywords in an actor's bio:</h4>
+      <input id="bio" placeholder='Bio' ng-model="actor.bio">
+
+      <h4>Ages you want the actor to be able to play:</h4>
+      <input type="number" placeholder='Youngest Age' ng-model="actor.age_young">
+      <p>or</p>
+      <input type="number" placeholder='Oldest Age' ng-model="actor.age_old">
+
+      <p>Hair Color</p>
+      <select name="hair_color" ng-model="actor.hair_color">
+        <option value="Blonde">blonde</option>
+        <option value="Brown">Brown</option>
+        <option value="Hazel">Hazel</option>
+        <option value="Grey">Grey</option>
+        <option value="Black">Black</option>
+        <option value="Red">Red</option>
+        <option value="White">White</option>
+        <option value="Other">Other</option>
+        <option value="None">None</option>
+      </select>
+
+      <p>Eye Color</p>
+      <select name="eye_color" ng-model="actor.eye_color">
+        <option value="Blue">Blue</option>
+        <option value="Brown">Brown</option>
+        <option value="Hazel">Hazel</option>
+        <option value="Green">Green</option>
+        <option value="Black">Black</option>
+        <option value="Grey">Grey</option>
+        <option value="Purple">Purple</option>
+      </select>
+
+      <p>Gender</p>
+      <select name="gender" ng-model="actor.gender">
+        <option value="Male">Male</option>
+        <option  value="Female">Female</option>
+      </select>
+
+      <p>Ethnicity</p>
+      <select name="ethnicity" ng-model="actor.ethnicity">
+        <option value="Black/African American">Black/African American</option>
+        <option value="Hispanic/Latino">Hispanic/Latino</option>
+        <option value="Asian/Pacific Islander">Asian/Pacific Islander</option>
+        <option value="White/Caucasian">White/Caucasian</option>
+        <option value="American Indian/Alaskan Native">American Indian/Alaskan Native</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+     <div class="unions">
+      <h4>Unions the actor should belong to:</h4>
+      <label ng-repeat="union in unions">
+        <input 
+          type="checkbox"
+          name="selectedUnions[]"
+          value="{{union}}"
+          ng-checked="actor.union.indexOf(union) > -1"
+          ng-click="toggleUnion(union)"
+          class="unioninput"
+          >{{union}}
+      </label>
+    </div>
+
+    <div class="skills">
+      <h4>Skills the actor should have:</h4>
+      <label ng-repeat="skill in skills">
+        <div class="indskills">
+        <input
+          type="checkbox"
+          name="selectedSkills[]"
+          value="{{skill}}"
+          ng-checked="actor.skills.indexOf(skill) > -1"
+          ng-click="toggleSkill(skill)"
+          class="skillinput"
+          >{{skill}}
+          </div>
+      </label>
+    </div>
+        <button type="submit">Submit</button>
+</div>

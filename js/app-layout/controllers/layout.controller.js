@@ -28,6 +28,15 @@ let LayoutController = function($cookies, UserService, $state, FILESERVER) {
     } else {
       $state.go('root.myprofile', {id: $cookies.get('actor_id')});
     }
+
+  };
+
+  vm.search = function() {
+    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
+      $state.go('root.login')
+    } else {
+      $state.go('root.search');
+    }
   };
 
   // vm.goact = function() {

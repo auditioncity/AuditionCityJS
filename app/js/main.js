@@ -263,6 +263,45 @@ module.exports = exports['default'];
 },{}],5:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var searchController = function searchController($scope) {
+
+  var vm = this;
+  vm.title = "Search for actors";
+
+  $scope.unions = ['Equity', 'AFTRA', 'SAG', 'IATSE', 'SSDC', 'DGA', 'AGMA'];
+
+  $scope.skills = ['Accompanist', 'Acting Instructor', 'Actor', 'Administrator', 'Artistic Director', 'Board Operator', 'Bookkeeper/Accounting', 'Carpenter', 'Choreographer', 'Composer', 'Costume Designer', 'Dance Instructor', 'Dancer', 'Development/Fundraising', 'Dialect Coach', 'Director', 'Dramaturg', 'Educator', 'Fight Choreographer', 'Front of House/Box Office', 'Graphic Designer', 'Hair/Makeup/Wig Artist', 'Improv Artist', 'Lighting Designer', 'Literary Manager', 'Managing Director', 'Marketing', 'Model', 'Multimedia Specialist', 'Music Director', 'Musician', 'Painter/Scenic Artist', 'Photographer', 'Playwright', 'Producer', 'Production Manager', 'Prop Artisan', 'Public Relations', 'Puppeteer', 'Scenic Designer', 'Screenwriter', 'Sign Interpreter', 'Singer', 'Sound Designer', 'Sound Technician', 'Special Effects/Pyrotechnics', 'Stage Combatant', 'Stage Manager', 'Student', 'Technical Director', 'Translator', 'Video/Film Editor', 'Videographer', 'Vocal Coach', 'Voice Talent', 'Volunteer or Board', 'Web Designer', 'Writer'];
+
+  $scope.toggleUnion = function (union) {
+    var idx = $scope.actor.union.indexOf(union);
+    if (idx > -1) {
+      $scope.actor.union.splice(idx, 1);
+    } else {
+      $scope.actor.union.push(union);
+    }
+  };
+
+  $scope.toggleSkill = function (skill) {
+    var idx = $scope.actor.skills.indexOf(skill);
+    if (idx > -1) {
+      $scope.actor.skills.splice(idx, 1);
+    } else {
+      $scope.actor.skills.push(skill);
+    }
+  };
+};
+
+searchController.$inject = ['$scope'];
+
+exports['default'] = searchController;
+module.exports = exports['default'];
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _angular = require('angular');
@@ -287,9 +326,13 @@ var _controllersMyprofileController = require('./controllers/myprofile.controlle
 
 var _controllersMyprofileController2 = _interopRequireDefault(_controllersMyprofileController);
 
-_angular2['default'].module('app.AC', ['app.core']).controller('registerActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('editMyProfileController', _controllersEditmyprofileController2['default']).controller('myProfileController', _controllersMyprofileController2['default']);
+var _controllersSearchController = require('./controllers/search.controller');
 
-},{"../app-core/index":8,"./controllers/editmyprofile.controller":1,"./controllers/login.controller":2,"./controllers/myprofile.controller":3,"./controllers/registerActor.controller":4,"angular":18}],6:[function(require,module,exports){
+var _controllersSearchController2 = _interopRequireDefault(_controllersSearchController);
+
+_angular2['default'].module('app.AC', ['app.core']).controller('registerActorController', _controllersRegisterActorController2['default']).controller('LoginController', _controllersLoginController2['default']).controller('editMyProfileController', _controllersEditmyprofileController2['default']).controller('myProfileController', _controllersMyprofileController2['default']).controller('searchController', _controllersSearchController2['default']);
+
+},{"../app-core/index":9,"./controllers/editmyprofile.controller":1,"./controllers/login.controller":2,"./controllers/myprofile.controller":3,"./controllers/registerActor.controller":4,"./controllers/search.controller":5,"angular":19}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -323,6 +366,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/myprofile/:id',
     controller: 'myProfileController as vm',
     templateUrl: 'templates/app-AC/myprofile.tpl.html'
+  }).state('root.search', {
+    url: '/search',
+    controller: 'searchController as vm',
+    templateUrl: 'templates/app-AC/search.tpl.html'
   });
 };
 
@@ -331,7 +378,7 @@ config.$inject = ['$stateProvider', '$urlRouterProvider'];
 exports['default'] = config;
 module.exports = exports['default'];
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -348,7 +395,7 @@ exports['default'] = {
 module.exports = exports['default'];
 // 'Content-Type': undefined
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -369,7 +416,7 @@ var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverC
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
 
-},{"./config":6,"./constants/fileserver.constant":7,"angular":18,"angular-ui-router":16}],9:[function(require,module,exports){
+},{"./config":7,"./constants/fileserver.constant":8,"angular":19,"angular-ui-router":17}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -394,7 +441,7 @@ HomeController.$inject = ['UserService', '$state'];
 exports['default'] = HomeController;
 module.exports = exports['default'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -432,6 +479,14 @@ var LayoutController = function LayoutController($cookies, UserService, $state, 
     }
   };
 
+  vm.search = function () {
+    if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] == null || '') {
+      $state.go('root.login');
+    } else {
+      $state.go('root.search');
+    }
+  };
+
   // vm.goact = function() {
   //   if (FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] === null) {
   //     $state.go('root.login')
@@ -446,7 +501,7 @@ LayoutController.$inject = ['$cookies', 'UserService', '$state', 'FILESERVER'];
 exports['default'] = LayoutController;
 module.exports = exports['default'];
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -469,7 +524,7 @@ var _servicesUserService2 = _interopRequireDefault(_servicesUserService);
 
 _angular2['default'].module('app.layout', [require('angular-cookies')]).controller('HomeController', _controllersHomeController2['default']).controller('LayoutController', _controllersLayoutController2['default']).service('UserService', _servicesUserService2['default']);
 
-},{"./controllers/home.controller":9,"./controllers/layout.controller":10,"./services/user.service":12,"angular":18,"angular-cookies":15}],12:[function(require,module,exports){
+},{"./controllers/home.controller":10,"./controllers/layout.controller":11,"./services/user.service":13,"angular":19,"angular-cookies":16}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -550,7 +605,7 @@ UserService.$inject = ['$http', '$cookies', '$state', 'FILESERVER'];
 exports['default'] = UserService;
 module.exports = exports['default'];
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -567,7 +622,7 @@ require('./app-layout/index');
 
 _angular2['default'].module('app', ['app.core', 'app.AC', 'app.layout']);
 
-},{"./app-AC/index":5,"./app-core/index":8,"./app-layout/index":11,"angular":18}],14:[function(require,module,exports){
+},{"./app-AC/index":6,"./app-core/index":9,"./app-layout/index":12,"angular":19}],15:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -890,11 +945,11 @@ angular.module('ngCookies').provider('$$cookieWriter', function $$CookieWriterPr
 
 })(window, window.angular);
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 require('./angular-cookies');
 module.exports = 'ngCookies';
 
-},{"./angular-cookies":14}],16:[function(require,module,exports){
+},{"./angular-cookies":15}],17:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -5265,7 +5320,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -34284,11 +34339,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":17}]},{},[13])
+},{"./angular":18}]},{},[14])
 
 
 //# sourceMappingURL=main.js.map
