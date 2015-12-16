@@ -47,8 +47,9 @@ div .profile {
   padding: 20px;
   color: black;
   text-align: center; }
-  div .profile span .head {
-    color: #970D00; }
+
+span.head {
+  color: #970D00; }
 
 div.address {
   border: 2px solid #970D00;

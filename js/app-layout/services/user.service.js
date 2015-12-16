@@ -46,6 +46,16 @@ let UserService = function($http, $cookies, $state, FILESERVER) {
   // });
   };
 
+  vm.actors = function() {
+    return $http({
+      method: 'GET',
+      url: FILESERVER.URL + 'actors',
+      headers: {
+        'Access-Token': $cookies.get('authToken')
+      },
+    })
+  };
+
   this.sendSignup = function(newuser) {
     return $http.post(FILESERVER.URL + 'signup', newuser, FILESERVER.CONFIG);
   };

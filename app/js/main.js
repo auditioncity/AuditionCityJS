@@ -379,6 +379,13 @@ var HomeController = function HomeController(UserService, $state) {
 
   var vm = this;
   vm.title = 'AuditionCity';
+
+  vm.actors = UserService.actors().then(function (result) {
+    // console.log(result);
+    var actors = result.data.actors;
+    vm.actors = actors;
+    console.log(actors);
+  });
 };
 
 HomeController.$inject = ['UserService', '$state'];
@@ -513,6 +520,16 @@ var UserService = function UserService($http, $cookies, $state, FILESERVER) {
     // vm.actor = actor;
     // $scope.actor = actor;
     // });
+  };
+
+  vm.actors = function () {
+    return $http({
+      method: 'GET',
+      url: FILESERVER.URL + 'actors',
+      headers: {
+        'Access-Token': $cookies.get('authToken')
+      }
+    });
   };
 
   this.sendSignup = function (newuser) {
