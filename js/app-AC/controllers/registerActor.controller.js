@@ -11,7 +11,7 @@ let registerActorController = function($scope, $http, FILESERVER, $cookies, $sta
     state: null,
     zip: null,
     phone_type: null,
-    phone: null,
+    phone_number: null,
     email_type: null,
     email: null,
     Website: null,

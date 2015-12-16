@@ -17,8 +17,8 @@ body {
   }
   input{
     color: black;
-    outline: none;
-    border: none;
+    // outline: none;
+    // border: none;
   }
 }
 
@@ -52,6 +52,31 @@ div .form{
   color: black;
   text-align: center;
 }
+div .actors{
+  background: white;
+  width: 80%;
+  margin: 40px auto;
+  border-radius: 25px;
+  padding: 20px;
+  color: black;
+  h3{
+    color: $ourRed;
+  }
+}
+div .actorinfo{
+  border-radius: 25px;
+  border: 2px solid $ourRed;
+  padding: 5px 10px 5px 5px;
+  width: 75%;
+  height: 140px;
+  display: inline-block;
+  overflow: auto;
+}
+  div .actorhead{
+    width: 20%;  
+    display: inline-block;
+  }
+
 div .profile{
   background: white;
   width: 80%;

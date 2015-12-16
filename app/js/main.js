@@ -17,7 +17,7 @@ var editMyProfileController = function editMyProfileController($scope, $http, FI
     state: null,
     zip: null,
     phone_type: null,
-    phone: null,
+    phone_number: null,
     email_type: null,
     email: null,
     Website: null,
@@ -183,7 +183,7 @@ var registerActorController = function registerActorController($scope, $http, FI
     state: null,
     zip: null,
     phone_type: null,
-    phone: null,
+    phone_number: null,
     email_type: null,
     email: null,
     Website: null,
@@ -379,12 +379,13 @@ var HomeController = function HomeController(UserService, $state) {
 
   var vm = this;
   vm.title = 'AuditionCity';
+  vm.actorpool = [];
 
-  vm.actors = UserService.actors().then(function (result) {
+  UserService.actors().then(function (result) {
     // console.log(result);
-    var actors = result.data.actors;
-    vm.actors = actors;
-    console.log(actors);
+    vm.actorpool = result.data.actors;
+    // vm.actors = actors;
+    console.log('hey list', vm.actorpool);
   });
 };
 
@@ -502,6 +503,7 @@ var UserService = function UserService($http, $cookies, $state, FILESERVER) {
 
   vm.logout = function () {
     $cookies.remove('authToken');
+    $cookies.remove('actor_id');
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = null;
     $state.go('root.login');
   };

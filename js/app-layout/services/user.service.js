@@ -26,6 +26,7 @@ let UserService = function($http, $cookies, $state, FILESERVER) {
 
   vm.logout = function() {
     $cookies.remove('authToken');
+    $cookies.remove('actor_id');
     FILESERVER.CONFIG.headers['X-AUTH-TOKEN'] = null;
     $state.go('root.login');
   };

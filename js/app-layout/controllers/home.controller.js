@@ -2,12 +2,13 @@ let HomeController = function(UserService, $state) {
   
   let vm = this;
   vm.title = 'AuditionCity';
+  vm.actorpool = [];
 
-  vm.actors = UserService.actors().then( (result) => {
+  UserService.actors().then( (result) => {
     // console.log(result);
-    let actors = result.data.actors;
-    vm.actors = actors;
-    console.log(actors);
+    vm.actorpool = result.data.actors;
+    // vm.actors = actors;
+    console.log('hey list', vm.actorpool);
   });
 
 };

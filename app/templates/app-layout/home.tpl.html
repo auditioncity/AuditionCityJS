@@ -1,5 +1,11 @@
 <h1>{{vm.title}}</h1>
 
-<div class="actors">
-  <img src="">
+<div class="actors" ng-repeat="theactor in vm.actorpool">
+    <h3>{{theactor.actor.full_name}}</h3>
+  <div class="actorhead">
+    <img src="{{theactor.actor.headshot_thumb}}" class="actorpic">
+  </div>
+  <div class="actorinfo">
+    <p>{{theactor.actor.bio}}</p>
+  </div>
 </div>
